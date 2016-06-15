@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node lib/"
+    "start": "node lib/sentinel"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,11 @@
   "homepage": "https://github.com/officialpsychonautwiki/sentry-irc-notifier#readme",
   "dependencies": {
     "bluebird": "^3.4.0",
+    "bunyan": "^1.8.1",
     "ircee": "^0.2.9",
-    "lodash": "^4.13.1"
+    "js-yaml": "^3.6.1",
+    "lodash": "^4.13.1",
+    "optimist": "^0.6.1",
+    "through": "^2.3.8"
   }
 }

@@ -18,51 +18,52 @@ module.exports = function(irc) {
 		return f.length;
 	};
 
-	var cmdchar = irc.config.chmdchar || ">";
+	var cmdchar = irc.config.chmdchar || '>';
 
-	irc.on("privmsg", function(msg) {
-		var sendto = msg.target[0] == "#" ? msg.target : msg.user.nick;
+	irc.on('privmsg', function(msg) {
+		var sendto = msg.target[0] == '#' ? msg.target : msg.user.nick;
 
 		if (msg.text.length && isAdmin(msg.source)) {
 			var responder = {};
 
-			responder.respond = irc.send.bind(irc, "privmsg", sendto);
+			responder.respond = irc.send.bind(irc, 'privmsg', sendto);
 
 			if ( msg.target !== irc.config.info.nick ) return void 0;
 
-			var _cmd = msg.text.split(" "),
+			var _cmd = msg.text.split(' '),
 			     cmd = _cmd[0];
 
 			if (cmds[cmd]) {
 				return cmds[cmd].apply(responder, [ msg, _cmd[1] ]);
 			} else {
-				return irc.send("notice", sendto, "Unknown command.");
+				return irc.send('notice', sendto, 'Unknown command.');
 			}
 		} else {
-			return irc.send("notice", sendto, "Unauthorized.");
+			return irc.send('notice', sendto, 'Unauthorized.');
 		}
 	});
 
-	irc.on("403", function (msg) {
+	irc.on('403', function (msg) {
 		if (!irc.config.bcnicks) return void 0;
 
 		irc.config.bcnicks.forEach(function (nick) {
-			irc.send("notice", nick, msg.text)
+			irc.send('notice', nick, msg.text)
 		});
 	})
 
-	function saveConfig() {
-		delete irc.config["$0"];
-		delete irc.config["_"];
+	const saveConfig = () => {
+		delete irc.config['$0'];
+		delete irc.config['_'];
+
 		irc.supervisor({
-			save: JSON.stringify(irc.config, null, 4)
+			save: _.chain(irc.config).omit('$0').omit('_').value()
 		});
-	}
+	};
 
 	var cmds = {};
 
 	cmds.reload = function(msg) {
-		irc.send("notice", msg.user.nick, "Reloading..");
+		irc.send('notice', msg.user.nick, 'Reloading..');
 
 		irc.supervisor({
 			reload: true
@@ -70,7 +71,7 @@ module.exports = function(irc) {
 	};
 
 	cmds.admin = function(msg) {
-		irc.send("notice", msg.user.nick, "Yes you are");
+		irc.send('notice', msg.user.nick, 'Yes you are');
 	}
 
 	cmds.join = function(msg, chan) {
@@ -79,7 +80,7 @@ module.exports = function(irc) {
 			saveConfig();
 		}
 
-		irc.send("join", chan);
+		irc.send('join', chan);
 	};
 
 	cmds.part = function(msg, chan) {
@@ -90,7 +91,7 @@ module.exports = function(irc) {
 			saveConfig();
 		}
 
-		irc.send("part", chan);
+		irc.send('part', chan);
 	};
 
 	cmds.get = function(msg, jpath) {
@@ -104,9 +105,9 @@ module.exports = function(irc) {
 			_.set(irc.config, jpath, JSON.parse(val))
 
 			saveConfig();
-			this.respond(last + " = " + JSON.stringify(c[last]));
+			this.respond(last + ' = ' + JSON.stringify(c[last]));
 		} catch(err) {
-			irc.send("notice", msg.user.nick, `Nope. ${err.message}`);
+			irc.send('notice', msg.user.nick, `Nope. ${err.message}`);
 		}
 	}
 
