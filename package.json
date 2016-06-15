@@ -1,0 +1,24 @@
+{
+  "name": "sentry-irc-notifier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node lib/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/officialpsychonautwiki/sentry-irc-notifier.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/officialpsychonautwiki/sentry-irc-notifier/issues"
+  },
+  "homepage": "https://github.com/officialpsychonautwiki/sentry-irc-notifier#readme",
+  "dependencies": {
+    "bluebird": "^3.4.0",
+    "ircee": "^0.2.9",
+    "lodash": "^4.13.1"
+  }
+}

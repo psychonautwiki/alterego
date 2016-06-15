@@ -1,0 +1,19 @@
+server: irc.tripsit.me
+port: 6697
+ssl: true
+allowInsecure: true
+channels:
+  - '##psychonautwiki-errors'
+info:
+  nick: alterego
+  user: alterego
+  name: pw-emitter
+admins:
+  - .+@tripsit/user/apx
+bcnicks:
+  - apxykins
+cmdchar: '!'
+vhost: null
+modules:
+  - admin
+  - boot
